@@ -1,35 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// src/App.jsx
+import * as weatherService from './services/weatherService';
+import WeatherSearch from './components/WeatherSearch';
+import WeatherDetails from './components/WeatherDetails';
+import { useState } from 'react';
 
-function App() {
-  const [count, setCount] = useState(0)
+
+
+
+
+const App = () => {
+  const [weather, setWeather] = useState({});
+  const fetchData = async(city) => {
+    // Get the weather data
+    const data = await weatherService.show(city);
+  
+
+    // Create a new weather object using our weather data
+    const newWeatherState = {
+      location: data.location.name,
+      temperature: data.current.temp_f,
+      condition: data.current.condition.text
+    };
+
+    
+    // Update the weather state
+    setWeather(newWeatherState);
+  }
+
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <main>
+    <h1>Weather API!</h1>
+    <WeatherSearch fetchData={fetchData}/>
+    <WeatherDetails weather={weather} />
+    </main>
+  );
 }
 
 export default App
