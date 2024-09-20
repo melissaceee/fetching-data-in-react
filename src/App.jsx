@@ -5,9 +5,6 @@ import WeatherDetails from './components/WeatherDetails';
 import { useState } from 'react';
 
 
-
-
-
 const App = () => {
   const [weather, setWeather] = useState({});
   const fetchData = async(city) => {
